@@ -172,14 +172,14 @@ const LandingPage = () => {
             Siap Mulai Perjalanan Kesembuhan Anda?
           </h2>
           <p className="body-large" style={{ marginBottom: '2rem', maxWidth: '600px', margin: '0 auto 2rem' }}>
-            Jawab 4 pertanyaan sederhana untuk mendapatkan program yang sesuai dengan kondisi Anda.
+            Daftar sekarang dan dapatkan akses ke Program 30 Hari Challenge GRATIS!
           </p>
           <Button 
             className="btn-primary"
             size="lg"
-            onClick={() => navigate('/quiz')}
+            onClick={() => navigate('/register')}
           >
-            Mulai Kuis Kesehatan Gratis <ArrowRight className="ml-2 h-5 w-5" />
+            Daftar Gratis Sekarang <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         </div>
       </section>
