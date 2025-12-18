@@ -11,15 +11,42 @@ const Challenge = () => {
   const [enrolling, setEnrolling] = useState(false);
   const [selectedDay, setSelectedDay] = useState(null);
 
-  const handleEnroll = () => {
+  const handleEnroll = async () => {
     setEnrolling(true);
-    // Mock enrollment
-    setTimeout(() => {
-      localStorage.setItem('challengeEnrolled', 'true');
-      localStorage.setItem('challengeStartDate', new Date().toISOString());
-      alert('Selamat! Anda telah terdaftar di Program 30 Hari Challenge. Cek WhatsApp Anda untuk instruksi lebih lanjut.');
+    
+    const user_id = localStorage.getItem('user_id');
+    const quizResult = JSON.parse(localStorage.getItem('quizResult') || '{}');
+    
+    try {
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+      const response = await fetch(`${BACKEND_URL}/api/challenge/enroll`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: user_id,
+          phone_number: 'demo_' + Date.now(),
+          name: 'Demo User',
+          health_type: quizResult.type || 'A',
+          start_date: new Date().toISOString()
+        })
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        localStorage.setItem('challengeEnrolled', 'true');
+        localStorage.setItem('challengeStartDate', new Date().toISOString());
+        localStorage.setItem('challenge_id', data.challenge_id);
+        alert('Selamat! Anda telah terdaftar di Program 30 Hari Challenge. Cek WhatsApp Anda untuk instruksi lebih lanjut.');
+      }
+    } catch (error) {
+      console.error('Error enrolling in challenge:', error);
+      alert('Terjadi kesalahan saat mendaftar. Silakan coba lagi.');
+    } finally {
       setEnrolling(false);
-    }, 1500);
+    }
   };
 
   return (
