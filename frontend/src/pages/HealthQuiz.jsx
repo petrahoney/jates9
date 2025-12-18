@@ -32,7 +32,7 @@ const HealthQuiz = () => {
     }
   };
 
-  const calculateResult = () => {
+  const calculateResult = async () => {
     let totalScore = 0;
     let healthType = 'A';
 
@@ -48,14 +48,45 @@ const HealthQuiz = () => {
       }
     });
 
-    // Simpan hasil ke localStorage (mock backend)
-    localStorage.setItem('quizResult', JSON.stringify({
-      score: totalScore,
-      type: healthType,
-      timestamp: new Date().toISOString()
-    }));
+    // Submit to backend API
+    try {
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+      const response = await fetch(`${BACKEND_URL}/api/quiz/submit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          phone_number: 'demo_' + Date.now(),
+          name: 'Demo User',
+          answers: answers,
+          score: totalScore,
+          health_type: healthType,
+          timestamp: new Date().toISOString()
+        })
+      });
 
-    setShowResult(true);
+      const data = await response.json();
+      
+      // Simpan user_id ke localStorage
+      localStorage.setItem('user_id', data.user_id);
+      localStorage.setItem('quizResult', JSON.stringify({
+        score: totalScore,
+        type: healthType,
+        timestamp: new Date().toISOString()
+      }));
+
+      setShowResult(true);
+    } catch (error) {
+      console.error('Error submitting quiz:', error);
+      // Fallback ke localStorage jika backend error
+      localStorage.setItem('quizResult', JSON.stringify({
+        score: totalScore,
+        type: healthType,
+        timestamp: new Date().toISOString()
+      }));
+      setShowResult(true);
+    }
   };
 
   const getResultMessage = () => {
