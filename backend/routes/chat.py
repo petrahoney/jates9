@@ -73,13 +73,12 @@ async def send_message(
         }
         messages_history.append(user_message_data)
         
-        # Initialize LLM Chat
+        # Initialize LLM Chat with proper configuration
         chat = LlmChat(
             api_key=EMERGENT_LLM_KEY,
             session_id=request.session_id,
             system_message=SYSTEM_MESSAGE
-        )
-        chat.with_model("openai", "gpt-5.1")
+        ).with_model("openai", "gpt-5")  # Use gpt-5 instead of gpt-5.1
         
         # Create user message
         user_msg = UserMessage(text=request.message)
