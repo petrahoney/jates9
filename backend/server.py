@@ -39,9 +39,13 @@ async def health_check():
     }
 
 # Include feature routers
+from routes import auth, dashboard
+
 api_router.include_router(quiz.router)
 api_router.include_router(challenge.router)
 api_router.include_router(chat.router)
+api_router.include_router(auth.router)
+api_router.include_router(dashboard.router)
 
 # Include the main API router in the app
 app.include_router(api_router)
