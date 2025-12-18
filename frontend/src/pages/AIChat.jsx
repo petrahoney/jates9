@@ -28,18 +28,48 @@ const AIChat = () => {
     };
 
     setMessages([...messages, userMessage]);
+    const userInput = input;
     setInput('');
     setIsLoading(true);
 
-    // Mock AI response - akan diintegrasikan dengan backend nanti
-    setTimeout(() => {
+    try {
+      const user_id = localStorage.getItem('user_id') || 'guest_' + Date.now();
+      const session_id = localStorage.getItem('chat_session_id') || 'session_' + Date.now();
+      
+      // Save session_id for future requests
+      localStorage.setItem('chat_session_id', session_id);
+
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+      const response = await fetch(`${BACKEND_URL}/api/chat/message`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: user_id,
+          session_id: session_id,
+          message: userInput
+        })
+      });
+
+      const data = await response.json();
+      
       const aiResponse = {
         role: 'assistant',
-        content: generateMockResponse(input)
+        content: data.response
       };
       setMessages(prev => [...prev, aiResponse]);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      // Fallback to mock response
+      const aiResponse = {
+        role: 'assistant',
+        content: generateMockResponse(userInput)
+      };
+      setMessages(prev => [...prev, aiResponse]);
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   const generateMockResponse = (question) => {
