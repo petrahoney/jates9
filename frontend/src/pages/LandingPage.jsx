@@ -23,16 +23,16 @@ const LandingPage = () => {
             <Button 
               className="btn-primary"
               size="lg"
-              onClick={() => navigate('/quiz')}
+              onClick={() => navigate('/register')}
             >
-              Mulai Kuis Kesehatan <ArrowRight className="ml-2 h-5 w-5" />
+              Daftar Gratis <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button 
               className="btn-secondary"
               size="lg"
-              onClick={() => navigate('/challenge')}
+              onClick={() => navigate('/login')}
             >
-              Lihat Program 30 Hari
+              Sudah Punya Akun? Masuk
             </Button>
           </div>
         </div>
