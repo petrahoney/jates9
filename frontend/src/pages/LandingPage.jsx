@@ -154,13 +154,20 @@ const LandingPage = () => {
           })}
         </div>
 
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           <Button 
             className="btn-primary"
             size="lg"
+            onClick={() => navigate('/register')}
+          >
+            Daftar & Lihat Paket
+          </Button>
+          <Button 
+            className="btn-secondary"
+            size="lg"
             onClick={() => navigate('/product')}
           >
-            Lihat Paket Jates9
+            Lihat Detail Produk
           </Button>
         </div>
       </section>
