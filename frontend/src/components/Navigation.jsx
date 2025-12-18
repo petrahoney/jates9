@@ -120,14 +120,23 @@ const Navigation = () => {
               </Link>
             ))}
             <Button 
-              className="btn-primary" 
+              className="btn-secondary" 
               onClick={() => {
-                navigate('/quiz');
+                navigate('/login');
                 setMobileMenuOpen(false);
               }}
               style={{ marginTop: '0.5rem' }}
             >
-              Mulai Sekarang
+              Masuk
+            </Button>
+            <Button 
+              className="btn-primary" 
+              onClick={() => {
+                navigate('/register');
+                setMobileMenuOpen(false);
+              }}
+            >
+              Daftar
             </Button>
           </div>
         </div>
